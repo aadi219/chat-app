@@ -1,0 +1,5 @@
+# dependencies
+node_modules
+
+# TS builds
+dist/**/*
