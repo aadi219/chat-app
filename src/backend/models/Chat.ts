@@ -7,6 +7,7 @@ export default (sequelize: any) => {
       chatID: {
         type: DataTypes.INTEGER,
         primaryKey: true,
+        autoIncrement: true
       },
       title: {
         type: DataTypes.STRING,

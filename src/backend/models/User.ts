@@ -7,6 +7,7 @@ export default (sequelize: any) => {
       userID: {
         type: DataTypes.INTEGER,
         primaryKey: true,
+        autoIncrement: true
       },
       phone: {
         type: DataTypes.STRING(10),
