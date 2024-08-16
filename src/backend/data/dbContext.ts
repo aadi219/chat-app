@@ -23,8 +23,6 @@ async function connectToDB(config: {
 
     // load models and sync changes. NOTE: this does not create migrations
     loadModels(db);
-    // sync({alter}) - checks current state of tables in DB and performs necessary changes to make it match the model
-    await db.sync({ alter: true });
     console.log("Models synced successfully");
 
     // return db instance

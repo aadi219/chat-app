@@ -6,7 +6,8 @@
   "main": "dist/index.js",
   "scripts": {
     "build": "npx tsc",
-    "server": "npx tsc & nodemon dist/backend/index.js"
+    "server": "npx tsc && nodemon dist/backend/index.js",
+    "db:sync": "node dist/data/syncDB.js"
   },
   "author": "Aadi Badola",
   "license": "ISC",
