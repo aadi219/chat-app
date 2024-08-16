@@ -4,6 +4,6 @@ import connectToDB from "./dbContext.js";
 (async () => {
   const db = await connectToDB(dbConfig);
   if (db) {
-    db.sync({force: true});
+    db.context.sync({force: true});
   }
 })();

@@ -2,6 +2,7 @@
 
 import { Sequelize } from "sequelize";
 import Models from "../models/index.js";
+import Context from "./Context.js";
 
 async function connectToDB(config: {
   dbName: string;
@@ -11,19 +12,21 @@ async function connectToDB(config: {
   port: string;
 }) {
   const { dbName, username, password, host, port } = { ...config };
-  const db = new Sequelize(dbName, username, password, {
+  const sequelize = new Sequelize(dbName, username, password, {
     host: host,
     port: parseInt(port),
     dialect: "postgres",
   });
+  const db = new Context(sequelize);
+  const models = defineAssociations(db.context);
+  db.loadModels(models);
+
   try {
     // test db connection
-    await db.authenticate();
+    await db.context.authenticate();
     console.log("Connection to database established");
 
     // load models and sync changes. NOTE: this does not create migrations
-    loadModels(db);
-    console.log("Models synced successfully");
 
     // return db instance
     return db;
@@ -32,23 +35,32 @@ async function connectToDB(config: {
   }
 }
 
-function loadModels(context: Sequelize) {
-  const { User, Chat, Message } = { ...Models };
+function defineAssociations(context: Sequelize) {
+  const { UserModel, ChatModel, MessageModel } = { ...Models };
   // define models;
-  const user = User(context);
-  const chat = Chat(context);
-  const msg = Message(context);
+  const User = UserModel(context);
+  const Chat = ChatModel(context);
+  const Message = MessageModel(context);
 
   // define relationships
   // foreignKey option used to explicitly define column name. Must be included in both sides of the relationship.
-  chat.hasMany(msg, { foreignKey: "chatID" });
-  msg.belongsTo(chat, { foreignKey: "chatID" });
+  Chat.hasMany(Message, { foreignKey: "chatID" });
+  Message.belongsTo(Chat, { foreignKey: "chatID" });
 
-  user.hasMany(msg, { foreignKey: "userID" });
-  msg.belongsTo(user, { foreignKey: "chatID" });
+  User.hasMany(Message, { foreignKey: "userID" });
+  Message.belongsTo(User, { foreignKey: "chatID" });
 
-  user.belongsToMany(chat, { through: "chat_user", foreignKey: "userID", otherKey: "chatID" });
-  chat.belongsToMany(user, { through: "chat_user", foreignKey: "chatID", otherKey: "userID" });
+  User.belongsToMany(Chat, {
+    through: "chat_user",
+    foreignKey: "userID",
+    otherKey: "chatID",
+  });
+  Chat.belongsToMany(User, {
+    through: "chat_user",
+    foreignKey: "chatID",
+    otherKey: "userID",
+  });
+  return { User, Chat, Message};
 }
 
 export default connectToDB;
