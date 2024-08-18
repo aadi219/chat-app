@@ -1,6 +1,10 @@
 {
   "compilerOptions": {
     "target": "es2016",                                  /* Set the JavaScript language version for emitted JavaScript and include compatible library declarations. */
+    
+    /* For Dependency Injection */
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
 
     /* Modules */
     "outDir": "./dist",                                   /* Specify an output folder for all emitted files. */
