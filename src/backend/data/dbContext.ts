@@ -11,7 +11,7 @@ async function connectToDB(config: {
   host: string;
   port: string;
 }) {
-  const { dbName, username, password, host, port } = { ...config };
+  const { dbName, username, password, host, port } = config;
   const sequelize = new Sequelize(dbName, username, password, {
     host: host,
     port: parseInt(port),
@@ -36,7 +36,7 @@ async function connectToDB(config: {
 }
 
 function defineAssociations(context: Sequelize) {
-  const { UserModel, ChatModel, MessageModel } = { ...Models };
+  const { UserModel, ChatModel, MessageModel } = Models;
   // define models;
   const User = UserModel(context);
   const Chat = ChatModel(context);
@@ -48,7 +48,7 @@ function defineAssociations(context: Sequelize) {
   Message.belongsTo(Chat, { foreignKey: "chatID" });
 
   User.hasMany(Message, { foreignKey: "userID" });
-  Message.belongsTo(User, { foreignKey: "chatID" });
+  Message.belongsTo(User, { foreignKey: "userID" });
 
   User.belongsToMany(Chat, {
     through: "chat_user",
