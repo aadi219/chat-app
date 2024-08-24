@@ -14,6 +14,10 @@ class UserController extends BaseController {
     super();
   }
 
+  testFunc = () => {
+    console.log("Testing in UserController");
+  };
+
   getUsers = async (req: Request, res: Response) => {
     const users = await this._db.models.User.findAll({ raw: true });
     res.json(users);
@@ -24,9 +28,9 @@ class UserController extends BaseController {
     if (user) {
       res.json(user);
     } else {
-      res.json({error: "User not found"});
+      res.json({ error: "User not found" });
     }
-  }
+  };
 }
 
 export default UserController;
