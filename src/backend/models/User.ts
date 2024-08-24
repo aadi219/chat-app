@@ -1,4 +1,5 @@
 import { DataTypes } from "sequelize";
+import { checkSchema } from "express-validator";
 
 export const UserModel = (sequelize: any) => {
   const User = sequelize.define(
@@ -28,3 +29,18 @@ export const UserModel = (sequelize: any) => {
   );
   return User;
 };
+
+export const checkUser = () => checkSchema({
+    email: {
+      isEmail: {
+        errorMessage: "Please provide a valid email address.",
+      },
+    },
+    phone: {
+      isMobilePhone: {
+        options: ["any"],
+      },
+    },
+    fname: { notEmpty: true },
+    lname: { notEmpty: true },
+  });

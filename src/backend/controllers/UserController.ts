@@ -31,6 +31,52 @@ class UserController extends BaseController {
       res.json({ error: "User not found" });
     }
   };
+
+  createUser = async (req: Request, res: Response) => {
+    const { fname, lname, phone, email } = req.body;
+    const newUser: any = await this._db.models.User.create({
+      fname: fname,
+      lname: lname,
+      phone: phone,
+      email: email,
+    });
+    console.log(`New user created with ID: ${newUser.userID}`);
+    console.log(newUser.toJSON());
+    res.json({ success: `New user created with ID: ${newUser.userID}` });
+  };
+
+  updateUser = async (req: Request, res: Response) => {
+    const { fname, lname, phone, email } = req.body;
+    const user = await this._db.models.User.findByPk(req.params.id);
+    if (user) {
+      try {
+        user.set({
+          fname: fname,
+          lname: lname,
+          phone: phone,
+          email: email,
+        });
+        await user.save();
+        res.status(200).json({ success: "User updated sucessfully" });
+      } catch (err) {
+        res.status(500).json({ err: "Could not update User" });
+      }
+    }
+  };
+
+  deleteUser = async (req: Request, res: Response) => {
+    const user = await this._db.models.User.findByPk(req.params.id);
+    if (user) {
+      try {
+        user.destroy();
+        res.status(200).json({ success: "User deleted successfully" });
+      } catch (err) {
+        if (err instanceof Error) res.status(500).json({ error: err.message });
+      }
+    } else {
+      res.status(404).json({ error: "User not found" });
+    }
+  };
 }
 
 export default UserController;
