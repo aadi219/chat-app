@@ -1,6 +1,6 @@
 import { DataTypes } from "sequelize";
 
-export default (sequelize: any) => {
+export const MessageModel =  (sequelize: any) => {
   const Message = sequelize.define(
     "Message",
     {

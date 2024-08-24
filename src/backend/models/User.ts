@@ -1,13 +1,13 @@
 import { DataTypes } from "sequelize";
 
-export default (sequelize: any) => {
+export const UserModel = (sequelize: any) => {
   const User = sequelize.define(
     "User",
     {
       userID: {
         type: DataTypes.INTEGER,
         primaryKey: true,
-        autoIncrement: true
+        autoIncrement: true,
       },
       phone: {
         type: DataTypes.STRING(10),
