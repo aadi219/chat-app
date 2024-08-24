@@ -1,4 +1,5 @@
 import { Sequelize, Model } from "sequelize";
+import "reflect-metadata"; // required for dependency injection to register the service
 
 class Context {
   context: Sequelize;

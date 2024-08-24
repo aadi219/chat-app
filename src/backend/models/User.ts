@@ -1,13 +1,14 @@
 import { DataTypes } from "sequelize";
+import { checkSchema } from "express-validator";
 
-export default (sequelize: any) => {
+export const UserModel = (sequelize: any) => {
   const User = sequelize.define(
     "User",
     {
       userID: {
         type: DataTypes.INTEGER,
         primaryKey: true,
-        autoIncrement: true
+        autoIncrement: true,
       },
       phone: {
         type: DataTypes.STRING(10),
@@ -28,3 +29,18 @@ export default (sequelize: any) => {
   );
   return User;
 };
+
+export const checkUser = () => checkSchema({
+    email: {
+      isEmail: {
+        errorMessage: "Please provide a valid email address.",
+      },
+    },
+    phone: {
+      isMobilePhone: {
+        options: ["any"],
+      },
+    },
+    fname: { notEmpty: true },
+    lname: { notEmpty: true },
+  });

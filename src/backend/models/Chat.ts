@@ -1,6 +1,6 @@
 import { DataTypes } from "sequelize";
 
-export default (sequelize: any) => {
+export const ChatModel = (sequelize: any) => {
   const Chat = sequelize.define(
     "Chat",
     {
