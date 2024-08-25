@@ -13,11 +13,15 @@ import { container } from "tsyringe";
  */
 
 function useControllers(dbContext: Context) {
-  const { UserController } = controllers;
+  const { UserController, ChatController, MessageController } = controllers;
   container.register("Context", { useValue: dbContext });
   const userController = container.resolve(UserController);
+  const chatController = container.resolve(ChatController);
+  const messageController = container.resolve(MessageController);
   return {
     userController,
+    chatController,
+    messageController,
   };
 }
 
