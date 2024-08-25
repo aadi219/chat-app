@@ -15,12 +15,19 @@ export const UserModel = (sequelize: any) => {
       },
       email: {
         type: DataTypes.STRING,
+        allowNull: false,
       },
       fname: {
         type: DataTypes.STRING(15),
+        allowNull: false,
       },
       lname: {
         type: DataTypes.STRING(15),
+        allowNull: false,
+      },
+      password: {
+        type: DataTypes.STRING(15),
+        allowNull: false,
       },
     },
     {
@@ -30,7 +37,8 @@ export const UserModel = (sequelize: any) => {
   return User;
 };
 
-export const checkUser = () => checkSchema({
+export const checkUser = () =>
+  checkSchema({
     email: {
       isEmail: {
         errorMessage: "Please provide a valid email address.",
@@ -43,4 +51,22 @@ export const checkUser = () => checkSchema({
     },
     fname: { notEmpty: true },
     lname: { notEmpty: true },
+    password: {
+      notEmpty: true,
+      isLength: {
+        options: { min: 8, max: 25 },
+        errorMessage: "Password must be between 8 and 25 characters",
+      },
+      custom: {
+        options: (value: string) => {
+          return (
+              /[a-z]/.test(value) && // at least 1 lower case letter
+              /[A-Z]/.test(value) && // at least 1 upper case letter
+              /\d/.test(value) && // at least 1 number
+              /[\W_]/.test(value) //  at least 1 special character 
+          )
+        },
+        errorMessage: "Password does not match validation requirements" 
+      },
+    },
   });

@@ -33,12 +33,13 @@ class UserController extends BaseController {
   };
 
   createUser = async (req: Request, res: Response) => {
-    const { fname, lname, phone, email } = req.body;
+    const { fname, lname, phone, email, password } = req.body;
     const newUser: any = await this._db.models.User.create({
       fname: fname,
       lname: lname,
       phone: phone,
       email: email,
+      password: password,
     });
     console.log(`New user created with ID: ${newUser.userID}`);
     console.log(newUser.toJSON());
@@ -46,7 +47,7 @@ class UserController extends BaseController {
   };
 
   updateUser = async (req: Request, res: Response) => {
-    const { fname, lname, phone, email } = req.body;
+    const { fname, lname, phone, email, password } = req.body;
     const user = await this._db.models.User.findByPk(req.params.id);
     if (user) {
       try {
@@ -55,6 +56,7 @@ class UserController extends BaseController {
           lname: lname,
           phone: phone,
           email: email,
+          password: password,
         });
         await user.save();
         res.status(200).json({ success: "User updated sucessfully" });
