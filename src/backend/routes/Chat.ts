@@ -4,35 +4,53 @@ const router = express.Router();
 
 // /chats
 // get all chats
-router.get("/", (req: Request, res:Response) => {
-  res.send("GET request on /chats");
+router.get("/", async (req: Request, res:Response) => {
+  const chatController = req.controllers.chatController;
+  if (chatController) {
+    await chatController.getChats(req, res);
+  }
 })
 
 // get all chats for user
-router.get("/user/:userId", (req: Request, res: Response) => {
-  res.send(`GET request on /chats/user/${req.params.userId}`);
+router.get("/user/:userId", async (req: Request, res: Response) => {
+  const chatController = req.controllers.chatController;
+  if (chatController) {
+    await chatController.getChatsForUser(req, res);
+  }
 });
 
 // create new chat
-router.post("/", (req: Request, res: Response) => {
-  res.send("POST request on /chats");
+router.post("/", async (req: Request, res: Response) => {
+  const chatController = req.controllers.chatController;
+  if (chatController) {
+    await chatController.createChat(req, res);
+  }
 });
 /*******************************************************/
 
 // /chat/id
 // Get chat details
-router.get("/:id", (req: Request, res: Response) => {
-  res.send(`GET request on /chats/${req.params.id}`);
+router.get("/:id", async (req: Request, res: Response) => {
+  const chatController = req.controllers.chatController;
+  if (chatController) {
+    await chatController.getChatById(req, res);
+  }
 });
 
 // Update chat 
-router.put("/:id", (req: Request, res: Response) => {
-  res.send(`PUT request on /chats/${req.params.id}`);
+router.put("/:id", async (req: Request, res: Response) => {
+  const chatController = req.controllers.chatController;
+  if (chatController) {
+    await chatController.updateChat(req, res);
+  }
 });
 
 // Delete chat 
-router.delete("/:id", (req: Request, res: Response) => {
-  res.send(`DELETE request on /chats/${req.params.id}`);
+router.delete("/:id", async (req: Request, res: Response) => {
+  const chatController = req.controllers.chatController;
+  if (chatController) {
+    await chatController.deleteChat(req, res);
+  }
 });
 
 export default router;
