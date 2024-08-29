@@ -1,5 +1,5 @@
 import express, { Request, Response } from "express";
-
+import msgRouter from "./Message.js";
 const router = express.Router();
 
 // /chats
@@ -52,5 +52,7 @@ router.delete("/:id", async (req: Request, res: Response) => {
     await chatController.deleteChat(req, res);
   }
 });
+
+router.use("/:chatId/messages", msgRouter);
 
 export default router;
