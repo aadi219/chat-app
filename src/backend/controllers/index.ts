@@ -1,18 +1,24 @@
 import BaseController from "./BaseController.js";
 import UserController from "./UserController.js";
+import ChatController from "./ChatController.js";
+import MessageController from "./MessageController.js";
 
 export default {
   BaseController,
-  UserController
-}
+  UserController,
+  ChatController,
+  MessageController,
+};
 
 // extend the request interface to attach controllers.
 declare global {
   namespace Express {
     interface Request {
       controllers: {
-        userController: UserController
-      }
+        userController: UserController;
+        chatController: ChatController;
+        messageController: MessageController;
+      };
     }
   }
 }
